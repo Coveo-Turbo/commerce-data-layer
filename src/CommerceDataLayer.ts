@@ -161,12 +161,16 @@ export class CommerceDataLayer extends Component {
   }
 
   public handleProductClick(args: IStringMap<any>) {
+    let product: ICommerceDataLayerProduct = this.options.productFormatter(
+      args
+    );
+
     this.pushToDataLayer({
       event: "productClick",
       ecommerce: {
         click: {
           actionField: { list: `coveo:search:${this.searchUid}` },
-          products: [args],
+          products: [product],
         },
       },
       eventCallback: function () {
@@ -176,12 +180,16 @@ export class CommerceDataLayer extends Component {
   }
 
   public handleProductDetail(args: IStringMap<any>) {
+    let product: ICommerceDataLayerProduct = this.options.productFormatter(
+      args
+    );
+
     this.pushToDataLayer({
       coveoSearchUid: this.searchUid,
       ecommerce: {
         detail: {
           actionField: { list: `coveo:search:${this.searchUid}` },
-          products: [args],
+          products: [product],
         },
       },
     });
@@ -189,25 +197,33 @@ export class CommerceDataLayer extends Component {
 
   // Adding a Product to a Shopping Cart
   public handleAddToCart(args: IStringMap<any>) {
+    let product: ICommerceDataLayerProduct = this.options.productFormatter(
+      args
+    );
+
     this.pushToDataLayer({
       event: "addToCart",
       ecommerce: {
         add: {
           actionField: { list: `coveo:search:${this.searchUid}` },
-          products: [args],
+          products: [product],
         },
       },
     });
   }
 
   public handleRemoveFromCart(args: IStringMap<any>) {
+    let product: ICommerceDataLayerProduct = this.options.productFormatter(
+      args
+    );
+
     this.pushToDataLayer({
       event: "removeFromCart",
       coveoSearchUid: this.searchUid,
       ecommerce: {
         remove: {
           actionField: { list: `coveo:search:${this.searchUid}` },
-          products: [args],
+          products: [product],
         },
       },
     });
