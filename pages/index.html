@@ -25,11 +25,6 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        window.dataLayer = window.dataLayer || { push: function (data) {
-          console.log('window.dataLayer.push=')
-          console.dir(data);
-        } };
-
         Coveo.SearchEndpoint.endpoints[
           "default"
         ].options.queryStringArguments.viewAllContent = "true";
@@ -58,10 +53,10 @@
                 let raw = result.raw;
 
                 // Id
-                product.id = raw["sfccrz__sku__c"];
+                product.id = raw['sfccrz__sku__c'];
 
                 // Name
-                product.name = raw["title"];
+                product.name = result['title'];
               } catch (error) {}
 
               return product;

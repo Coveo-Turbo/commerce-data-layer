@@ -69,10 +69,10 @@ Coveo.init(document.getElementById("search"), {
                 let raw = result.raw;
 
                 // Id
-                product.id = raw["sku"];
+                product.id = raw['sku'];
 
                 // Name
-                product.name = raw["title"];
+                product.name = result['title'];
             } catch (error) {}
 
             return product;

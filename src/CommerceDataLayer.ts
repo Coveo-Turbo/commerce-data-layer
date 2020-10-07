@@ -10,10 +10,13 @@ import {
   QueryEvents,
   IQuerySuccessEventArgs,
   AnalyticsEvents,
+  IAnalyticsEventArgs
 } from "coveo-search-ui";
 
 import { CommerceDataLayerEvents } from "./CommerceDataLayerEvents";
 import { lazyComponent } from "@coveops/turbo-core";
+
+declare var window: any;
 
 export interface ICommerceDataLayerProduct {
   id: String;
@@ -54,6 +57,13 @@ export class CommerceDataLayer extends Component {
     );
 
     if (typeof this.options.productFormatter == "function") {
+      // Ensure that we have a valid dataLayer
+      var uaComponent: Coveo.Analytics = <Coveo.Analytics>Coveo.get(
+        document.querySelector(".CoveoAnalytics"),
+        Coveo.Analytics
+      );
+      window[uaComponent.options.gtmDataLayerName] = window[uaComponent.options.gtmDataLayerName] || [];
+
       // Query Success
       this.bind.onRootElement(
         QueryEvents.querySuccess,
@@ -101,8 +111,19 @@ export class CommerceDataLayer extends Component {
 
   public pushToDataLayer(commerceActivity: IStringMap<any>) {
     try {
-      this.logger.info("pushToDataLayer", commerceActivity);
-      dataLayer.push(commerceActivity);
+      // var uaComponent: Coveo.Analytics = <Coveo.Analytics>Coveo.get(
+      //   document.querySelector(".CoveoAnalytics"),
+      //   Coveo.Analytics
+      // );
+      var uaComponent: any = Coveo.get(
+        document.querySelector(".CoveoAnalytics"),
+        Coveo.Analytics
+      );
+      
+      if (uaComponent) {
+        this.logger.info("pushToDataLayer", commerceActivity);
+        uaComponent.pushToGtmDataLayer(commerceActivity);
+      }
     } catch (error) {
       this.logger.error("Cannot push to dataLayer.");
     }
@@ -153,7 +174,7 @@ export class CommerceDataLayer extends Component {
 
   public handleNewResultsDisplayed() {
     this.pushToDataLayer({
-      // searchUid: this.searchUid,
+      // coveoSearchUid: this.searchUid,
       ecommerce: {
         impressions: this.displayedProducts,
       },
