@@ -119,6 +119,8 @@ export class CommerceDataLayer extends Component {
    */
   private handleQuerySuccess(args: IQuerySuccessEventArgs) {
     this.searchUid = args.results.searchUid;
+
+    this.handleSearch(args);
   }
 
   /**
@@ -162,6 +164,22 @@ export class CommerceDataLayer extends Component {
       // coveoSearchUid: this.searchUid,
       ecommerce: {
         impressions: this.displayedProducts,
+      },
+    });
+  }
+
+  public handleSearch(args: IQuerySuccessEventArgs) {
+    // this.pushToDataLayer({
+    //   event: "search",
+    //   search_term: query,
+    // });
+
+    this.pushToDataLayer({
+      event: "coveo-search-data-loaded",
+      "search-data": {
+        q: args.query.q,
+        searchUid: this.searchUid,
+        count: args.results.totalCount,
       },
     });
   }
