@@ -5,12 +5,10 @@ import {
   IChangeAnalyticsCustomDataEventArgs,
   IDisplayedNewResultEventArgs,
   ResultListEvents,
-  IBuildingQueryEventArgs,
   IStringMap,
   QueryEvents,
   IQuerySuccessEventArgs,
   AnalyticsEvents,
-  IAnalyticsEventArgs
 } from "coveo-search-ui";
 
 import { CommerceDataLayerEvents } from "./CommerceDataLayerEvents";
