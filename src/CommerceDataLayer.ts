@@ -58,11 +58,7 @@ export class CommerceDataLayer extends Component {
 
     if (typeof this.options.productFormatter == "function") {
       // Ensure that we have a valid dataLayer
-      var uaComponent: Coveo.Analytics = <Coveo.Analytics>Coveo.get(
-        document.querySelector(".CoveoAnalytics"),
-        Coveo.Analytics
-      );
-      window[uaComponent.options.gtmDataLayerName] = window[uaComponent.options.gtmDataLayerName] || [];
+      window.dataLayer = window.dataLayer || [];
 
       // Query Success
       this.bind.onRootElement(
@@ -111,19 +107,8 @@ export class CommerceDataLayer extends Component {
 
   public pushToDataLayer(commerceActivity: IStringMap<any>) {
     try {
-      // var uaComponent: Coveo.Analytics = <Coveo.Analytics>Coveo.get(
-      //   document.querySelector(".CoveoAnalytics"),
-      //   Coveo.Analytics
-      // );
-      var uaComponent: any = Coveo.get(
-        document.querySelector(".CoveoAnalytics"),
-        Coveo.Analytics
-      );
-      
-      if (uaComponent) {
-        this.logger.info("pushToDataLayer", commerceActivity);
-        uaComponent.pushToGtmDataLayer(commerceActivity);
-      }
+      this.logger.info("Pushing to dataLayer.", commerceActivity);
+      window.dataLayer.push(commerceActivity);
     } catch (error) {
       this.logger.error("Cannot push to dataLayer.");
     }
