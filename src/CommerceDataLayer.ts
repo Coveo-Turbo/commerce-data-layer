@@ -127,7 +127,7 @@ export class CommerceDataLayer extends Component {
   public handleChangeAnalyticsCustomData(
     args: IChangeAnalyticsCustomDataEventArgs
   ) {
-    if (args.type === "ClickEvent") {
+    if (args.type === "ClickEvent" && args.actionCause != "addToCart") {
       let product: ICommerceDataLayerProduct = this.options.productFormatter(
         args["resultData"]
       );
